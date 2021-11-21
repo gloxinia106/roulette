@@ -1,0 +1,14 @@
+{
+  "name": "roulette",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "gulp dev",
+    "build": "gulp build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
