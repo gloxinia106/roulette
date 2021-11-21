@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "gulp dev",
     "build": "gulp build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^4.0.2"
-  },
-  "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
-    "@babel/register": "^7.16.0"
+    "@babel/register": "^7.16.0",
+    "babelify": "^10.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-bro": "^2.0.0",
+    "gulp-csso": "^4.0.1",
+    "gulp-html": "^3.5.0",
+    "gulp-htmlmin": "^5.0.1",
+    "uglifyify": "^5.0.2"
   }
 }
