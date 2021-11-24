@@ -1,18 +1,21 @@
 // import { Chart } from "chart.js";
 // import ChartDataLabels from "chartjs-plugin-datalabels";
 
-const PercentInput = document.getElementById("percent-0");
+const FormUl = document.getElementById("form");
+const WeightInput = document.getElementById("weight-0");
 const NameInput = document.getElementById("name-0");
 
-let listId = [];
-let NameData = [];
+let listId = [0];
+let Lable = [];
+let Weights = [1];
 let PercentData = [];
 
 const deleteToList = (e) => {
-  const div = e.target.parentElement;
-  const divId = div.id.split("-")[1];
-  div.remove();
-  listId = listId.filter((id) => id !== parseInt(divId));
+  const li = e.target.parentElement;
+  const liId = li.id.split("-")[1];
+  li.remove();
+  listId = listId.filter((id) => id !== parseInt(liId));
+  updateData();
 };
 
 const addToList = () => {
@@ -26,17 +29,20 @@ const addToList = () => {
   const nameInput = document.createElement("input");
   nameInput.id = `name-${id}`;
   nameInput.className = "input-name";
-  nameInput.addEventListener("keypress", handleNameInput);
+  nameInput.addEventListener("input", handleNameInput);
 
-  const percentInput = document.createElement("input");
-  percentInput.id = `percent-${id}`;
-  percentInput.className = "input-percent";
-  percentInput.type = "number";
-  percentInput.step = "0.01";
-  percentInput.min = "0";
-  percentInput.max = "100";
-  percentInput.value = PercentData[PercentData.length - 1];
-  percentInput.addEventListener("keypress", handlePercentInput);
+  const weightInput = document.createElement("input");
+  weightInput.id = `weight-${id}`;
+  weightInput.className = "input-weight";
+  weightInput.type = "number";
+  weightInput.value = 1;
+  weightInput.min = 0;
+  Weights.push(1);
+  weightInput.addEventListener("input", handleWeightInput);
+
+  const percentSpan = document.createElement("span");
+  percentSpan.id = `percent-${id}`;
+  percentSpan.className = "percent";
 
   const button = document.createElement("button");
   button.innerText = "delete";
@@ -44,60 +50,55 @@ const addToList = () => {
 
   ul.appendChild(li);
   li.appendChild(nameInput);
-  li.appendChild(percentInput);
+  li.appendChild(weightInput);
+  li.appendChild(percentSpan);
   li.appendChild(button);
 };
 
 const calculatePercent = (value) => {
   let sum = 0;
-  PercentData.map((data) => {
+  Weights.map((data) => {
     sum += data;
   });
-  if (sum !== 0) {
-    let percentage = ((value * 100) / sum).toFixed(2);
-    return parseFloat(percentage);
-  } else {
-    return 100;
-  }
+  let percentage = ((value * 100) / sum).toFixed(2);
+  return parseFloat(percentage);
+};
+
+const updateData = () => {
+  const WeightInputs = document.querySelectorAll(".input-weight");
+  Weights = [...WeightInputs].map((input) => parseInt(input.value) || 0);
+  console.log(Weights);
+  PercentData = [...WeightInputs].map((input) => {
+    const calVal = calculatePercent(input.value);
+    return calVal;
+  });
+  const PercentSpan = document.querySelectorAll(".percent");
+  PercentSpan.forEach((value, index) => {
+    value.innerHTML = `${PercentData[index]}%`;
+  });
 };
 
 const handleEnterKey = () => {
-  let tempids = [];
-  const PercentInputs = document.querySelectorAll(".input-percent");
-  const NameInputs = document.querySelectorAll(".input-name");
-  PercentData = [...PercentInputs].map((input) => {
-    const id = input.id.split("-")[1];
-    tempids.push(parseInt(id));
-    const calVal = calculatePercent(input.value);
-    input.value = calVal;
-    return calVal;
-  });
-  NameData = [...NameInputs].map((input) => input.value);
-  listId = tempids;
+  listId.push(listId[listId.length - 1] + 1);
   addToList();
-  console.log(PercentData);
+  updateData();
 };
 
-const handlePercentInput = (e) => {
+const enterForm = (e) => {
   if (e.key === "Enter") {
     handleEnterKey();
-  } else {
-  }
-  // const value = parseInt(e.target.value);
-  // const index = e.target.id.split("-")[1];
-  // PercentData.splice(index, 1, value);
-  // UpdateToChart();
-};
-
-const handleNameInput = (e) => {
-  if (e.key === "Enter") {
-    handleEnterKey();
-  } else {
   }
 };
 
-PercentInput.addEventListener("keypress", handlePercentInput);
-NameInput.addEventListener("keypress", handleNameInput);
+const handleWeightInput = (e) => {
+  updateData();
+};
+
+const handleNameInput = (e) => {};
+
+FormUl.addEventListener("keypress", enterForm);
+WeightInput.addEventListener("input", handleWeightInput);
+NameInput.addEventListener("input", handleNameInput);
 
 // const UpdateToChart = () => {
 //   myChart.data.datasets[0].data = PercentData;
