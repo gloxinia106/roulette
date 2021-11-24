@@ -1,5 +1,5 @@
-// import { Chart } from "chart.js";
-// import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Chart } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const FormUl = document.getElementById("form");
 const WeightInput = document.getElementById("weight-0");
@@ -67,7 +67,6 @@ const calculatePercent = (value) => {
 const updateData = () => {
   const WeightInputs = document.querySelectorAll(".input-weight");
   Weights = [...WeightInputs].map((input) => parseInt(input.value) || 0);
-  console.log(Weights);
   PercentData = [...WeightInputs].map((input) => {
     const calVal = calculatePercent(input.value);
     return calVal;
@@ -76,10 +75,13 @@ const updateData = () => {
   PercentSpan.forEach((value, index) => {
     value.innerHTML = `${PercentData[index]}%`;
   });
+  myChart.data.datasets[0].data = Weights;
+  myChart.update();
 };
 
 const handleEnterKey = () => {
   listId.push(listId[listId.length - 1] + 1);
+  handleNameInput();
   addToList();
   updateData();
 };
@@ -94,87 +96,63 @@ const handleWeightInput = (e) => {
   updateData();
 };
 
-const handleNameInput = (e) => {};
+const handleNameInput = (e) => {
+  const NameInputs = document.querySelectorAll(".input-name");
+  Lable = [...NameInputs].map((input) => input.value);
+  myChart.data.labels = Lable;
+  myChart.update();
+};
 
 FormUl.addEventListener("keypress", enterForm);
 WeightInput.addEventListener("input", handleWeightInput);
 NameInput.addEventListener("input", handleNameInput);
 
-// const UpdateToChart = () => {
-//   myChart.data.datasets[0].data = PercentData;
-//   myChart.update();
-// };
+const ctx = document.getElementById("pieChart").getContext("2d");
 
-// const ctx = document.getElementById("pieChart").getContext("2d");
+const data = {
+  labels: Lable,
+  datasets: [
+    {
+      data: Weights,
+      backgroundColor: [
+        "rgba(251, 194, 044, 1)",
+        "rgba(240, 020, 134, 1)",
+        "rgba(160, 103, 173, 1)",
+        "rgba(070, 163, 210, 1)",
+        "rgba(140, 227, 061, 1)",
+      ],
+    },
+  ],
+};
 
-// const data = {
-//   datasets: [
-//     {
-//       data: [10, 20, 30, 20, 20],
-//       backgroundColor: [
-//         "rgba(255, 99, 132, 1)",
-//         "rgba(54, 162, 235, 1)",
-//         "rgba(255, 206, 86, 1)",
-//         "rgba(75, 192, 192, 1)",
-//         "rgba(153, 102, 255, 1)",
-//       ],
-//     },
-//   ],
-// };
-
-// const config = {
-//   type: "pie",
-//   data: data,
-//   options: {
-//     responsive: false,
-//     events: [],
-//     plugins: {
-//       datalabels: {
-//         formatter: (value, ctx) => {
-//           let sum = 0;
-//           let dataArr = ctx.chart.data.datasets[0].data;
-//           dataArr.map((data) => {
-//             sum += data;
-//           });
-//           let percentage = ((value * 100) / sum).toFixed(2) + "%";
-//           return percentage;
-//         },
-//       },
-//     },
-//     // elements: {
-//     //   arc: {
-//     //     borderColor: "#000000",
-//     //   },
-//     // },
-//   },
-//   plugins: [ChartDataLabels],
-// };
-// const myChart = new Chart(ctx, config);
-
-// console.log(myChart.options.elements.arc);
-
-// const handleSubmit = (e) => {
-//   e.preventDefault();
-//   let tempids = [];
-//   NameData = [...nameInputs].map((input) => {
-//     const id = input.id.split("-")[1];
-//     tempids.push(parseInt(id));
-//     return input.value;
-//   });
-//   PercentData = [...percentInputs].map((input) => {
-//     if (input.value === "100" || input.value === "") {
-//       const percentValue = Math.round((100 / percentInputs.length) * 100) / 100;
-//       return percentValue;
-//     }
-//     return input.value;
-//   });
-//   console.log(PercentData);
-//   listId = tempids;
-//   addToList();
-//   // UpdateToChart();
-//   percentInputs = document.querySelectorAll(".input-percent");
-//   nameInputs = document.querySelectorAll(".input-name");
-//   percentInputs.forEach((input) =>
-//     input.addEventListener("keypress", handlePercentInput)
-//   );
-// };
+const config = {
+  type: "pie",
+  data: data,
+  plugins: [ChartDataLabels],
+  options: {
+    events: [],
+    responsive: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        color: "white",
+        font: {
+          weigh: "bold",
+          size: 30,
+          // family: ""
+        },
+        formatter: (_, context) => {
+          return context.chart.data.labels[context.dataIndex];
+        },
+      },
+    },
+    // elements: {
+    //   arc: {
+    //     borderColor: "#000000",
+    //   },
+    // },
+  },
+};
+const myChart = new Chart(ctx, config);
