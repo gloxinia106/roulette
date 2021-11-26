@@ -13,6 +13,7 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
   const radian = angles.map((degree) => {
     return degreeToRadian(degree);
   });
+
   // Iterate through the angles
   for (let i = 0; i < radian.length; i = i + 1) {
     // Begin where we left off
@@ -32,6 +33,26 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     // Fill
     ctx.fill();
   }
+
+  let textAngle = radian[0] + degreeToRadian(rotate) || 0;
+
+  // text
+  for (let i = 0; i < radian.length; i = i + 1) {
+    textAngle += radian[i];
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(textAngle + radian[i] / 2);
+    ctx.moveTo(0, 0);
+    ctx.font = "36px Sans-serif";
+    ctx.strokeStyle = "black"; // 'black';
+    ctx.lineWidth = 5;
+    ctx.strokeText(labels[i], radius / 4, 8);
+    //ctx.fillStyle = window.line_color;
+    ctx.fillStyle = "white";
+    ctx.fillText(labels[i], radius / 4, 8);
+    ctx.restore();
+  }
+
   ctx.beginPath();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 3;
