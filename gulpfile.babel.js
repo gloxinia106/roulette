@@ -33,7 +33,9 @@ const js = () =>
     .pipe(
       bro({
         transform: [
-          babelify.configure({ presets: ["@babel/preset-env"] }),
+          babelify.configure({
+            presets: ["@babel/preset-env"],
+          }),
           ["uglifyify", { global: true }],
         ],
       })

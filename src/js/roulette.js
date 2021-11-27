@@ -34,11 +34,10 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     ctx.fill();
   }
 
-  let textAngle = radian[0] + degreeToRadian(rotate) || 0;
+  let textAngle = degreeToRadian(rotate) || 0;
 
   // text
   for (let i = 0; i < radian.length; i = i + 1) {
-    textAngle += radian[i];
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(textAngle + radian[i] / 2);
@@ -47,10 +46,10 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     ctx.strokeStyle = "black"; // 'black';
     ctx.lineWidth = 5;
     ctx.strokeText(labels[i], radius / 4, 8);
-    //ctx.fillStyle = window.line_color;
     ctx.fillStyle = "white";
     ctx.fillText(labels[i], radius / 4, 8);
     ctx.restore();
+    textAngle += radian[i];
   }
 
   ctx.beginPath();

@@ -15,6 +15,8 @@ let Weights = [1];
 let PercentData = [100];
 let Degrees = [360];
 
+let PushPower = 25;
+
 const deleteToList = (e) => {
   const li = e.target.parentElement;
   const liId = li.id.split("-")[1];
@@ -34,7 +36,7 @@ const addToList = () => {
   const nameInput = document.createElement("input");
   nameInput.id = `name-${id}`;
   nameInput.className = "input-name";
-  nameInput.required = true;
+  nameInput.placeholder = "undefined";
   nameInput.addEventListener("input", handleNameInput);
 
   const weightInput = document.createElement("input");
@@ -59,6 +61,7 @@ const addToList = () => {
   li.appendChild(weightInput);
   li.appendChild(percentSpan);
   li.appendChild(button);
+  nameInput.focus();
 };
 
 const calculatePercent = (value) => {
@@ -116,29 +119,51 @@ WeightInput.addEventListener("input", handleWeightInput);
 NameInput.addEventListener("input", handleNameInput);
 
 let tempRotate = 0;
-let rotatePower = 0;
-let friction = 50;
+let slowPoint = 0;
+let rotatePower = PushPower;
 
 const clickButton = () => {
-  rotatePower = Math.random() * (2000 - 1000) + 1000;
+  slowPoint = Math.random() * (2000 - 1000) + 1000;
   rollRoulette();
 };
 
 const rollRoulette = () => {
-  if (tempRotate < rotatePower) {
-    tempRotate += friction;
+  if (tempRotate < slowPoint) {
+    tempRotate += rotatePower;
   } else {
-    rotatePower = 0;
-    tempRotate += friction;
-    friction -= 0.1;
+    slowPoint = 0;
+    tempRotate += rotatePower;
+    rotatePower -= 0.1;
   }
-  if (friction < 0) {
+  if (rotatePower < 0) {
     tempRotate = 0;
-    friction = 50;
+    rotatePower = PushPower;
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawRoulette(ctx, Degrees, size, Lable, tempRotate);
+
+  let temp = tempRotate;
+
+  while (temp < -90) temp += 360;
+  while (temp >= 270) temp -= 360;
+
+  let beginAngle = -90;
+  let lastAngle = -90;
+  let desIndex = Degrees.length - 1;
+
+  for (let i = 0; i < Degrees.length; i = i + 1) {
+    // console.log(temp, i, Degrees[i - 1] || 0, Degrees[i]);
+
+    beginAngle += Degrees[i - 1] || 0;
+    lastAngle += Degrees[i];
+
+    if (temp > beginAngle && temp < lastAngle) {
+      // i 로 인덱스 값 찾아서 색깔 네임 넣기
+      console.log(desIndex);
+    }
+    desIndex -= 1;
+  }
   requestAnimationFrame(rollRoulette);
 };
 
