@@ -1,9 +1,12 @@
 import { drawRoulette } from "./roulette";
 import { percentToDegree } from "./util";
 
-const FormUl = document.getElementById("form");
+const Ul = document.getElementById("ul");
 const WeightInput = document.getElementById("weight-0");
 const NameInput = document.getElementById("name-0");
+const CurrentName = document.querySelector(".current-name");
+
+const colors = ["#FBC22B", "#F11486", "#A067AC", "#49A3CF", "#88E444"];
 
 const canvas = document.getElementById("roulette");
 const ctx = canvas.getContext("2d");
@@ -113,8 +116,9 @@ const handleNameInput = (e) => {
   drawRoulette(ctx, Degrees, size, Lable);
 };
 
+// 룰렛
 drawRoulette(ctx, Degrees, size, Lable);
-FormUl.addEventListener("keypress", enterForm);
+Ul.addEventListener("keypress", enterForm);
 WeightInput.addEventListener("input", handleWeightInput);
 NameInput.addEventListener("input", handleNameInput);
 
@@ -128,6 +132,7 @@ const clickButton = () => {
 };
 
 const rollRoulette = () => {
+  // 룰렛 돌리는 코드
   if (tempRotate < slowPoint) {
     tempRotate += rotatePower;
   } else {
@@ -143,6 +148,8 @@ const rollRoulette = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawRoulette(ctx, Degrees, size, Lable, tempRotate);
 
+  // 돌아가는 룰렛에 현재 위치 알아내는 코드
+
   let temp = tempRotate;
 
   while (temp < -90) temp += 360;
@@ -153,14 +160,12 @@ const rollRoulette = () => {
   let desIndex = Degrees.length - 1;
 
   for (let i = 0; i < Degrees.length; i = i + 1) {
-    // console.log(temp, i, Degrees[i - 1] || 0, Degrees[i]);
-
     beginAngle += Degrees[i - 1] || 0;
     lastAngle += Degrees[i];
 
     if (temp > beginAngle && temp < lastAngle) {
-      // i 로 인덱스 값 찾아서 색깔 네임 넣기
-      console.log(desIndex);
+      CurrentName.innerText = Lable[desIndex];
+      CurrentName.style.color = colors[desIndex];
     }
     desIndex -= 1;
   }

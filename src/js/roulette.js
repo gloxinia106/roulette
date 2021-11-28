@@ -14,7 +14,7 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     return degreeToRadian(degree);
   });
 
-  // Iterate through the angles
+  // 룰렛 그리기
   for (let i = 0; i < radian.length; i = i + 1) {
     // Begin where we left off
     beginAngle = endAngle;
@@ -36,7 +36,7 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
 
   let textAngle = degreeToRadian(rotate) || 0;
 
-  // text
+  // 텍스트 그리기
   for (let i = 0; i < radian.length; i = i + 1) {
     ctx.save();
     ctx.translate(centerX, centerY);
@@ -52,9 +52,23 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     textAngle += radian[i];
   }
 
+  // 원 테두리 그리기
   ctx.beginPath();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 3;
   ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+  ctx.stroke();
+
+  // 핀 그리기
+  ctx.beginPath();
+  console.log(centerX, centerY);
+  ctx.moveTo(centerX, centerY - radius + 5);
+  ctx.lineTo(centerX - 5, centerY - radius - 10);
+  ctx.lineTo(centerX - 5, centerY - radius - 15);
+  ctx.lineTo(centerX + 5, centerY - radius - 15);
+  ctx.lineTo(centerX + 5, centerY - radius - 10);
+  ctx.closePath();
+  ctx.fillStyle = "black";
+  ctx.fill();
   ctx.stroke();
 };
