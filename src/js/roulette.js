@@ -61,7 +61,6 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
 
   // 핀 그리기
   ctx.beginPath();
-  console.log(centerX, centerY);
   ctx.moveTo(centerX, centerY - radius + 5);
   ctx.lineTo(centerX - 5, centerY - radius - 10);
   ctx.lineTo(centerX - 5, centerY - radius - 15);

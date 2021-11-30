@@ -5,6 +5,7 @@ const Ul = document.getElementById("ul");
 const WeightInput = document.getElementById("weight-0");
 const NameInput = document.getElementById("name-0");
 const CurrentName = document.querySelector(".current-name");
+const rollBtn = document.querySelector(".roll-btn");
 
 const colors = ["#FBC22B", "#F11486", "#A067AC", "#49A3CF", "#88E444"];
 
@@ -18,7 +19,7 @@ let Weights = [1];
 let PercentData = [100];
 let Degrees = [360];
 
-let PushPower = 25;
+let PushPower = 30;
 
 const deleteToList = (e) => {
   const li = e.target.parentElement;
@@ -29,7 +30,6 @@ const deleteToList = (e) => {
 };
 
 const addToList = () => {
-  const ul = document.getElementById("form");
   const id = listId[listId.length - 1] + 1;
 
   const li = document.createElement("li");
@@ -56,14 +56,15 @@ const addToList = () => {
   percentSpan.className = "percent";
 
   const button = document.createElement("button");
-  button.innerText = "delete";
+  button.innerText = "❌";
+  button.className = "delete-btn";
   button.addEventListener("click", deleteToList);
 
   ul.appendChild(li);
+  li.appendChild(button);
   li.appendChild(nameInput);
   li.appendChild(weightInput);
   li.appendChild(percentSpan);
-  li.appendChild(button);
   nameInput.focus();
 };
 
@@ -126,8 +127,9 @@ let tempRotate = 0;
 let slowPoint = 0;
 let rotatePower = PushPower;
 
-const clickButton = () => {
+const clickButton = (e) => {
   slowPoint = Math.random() * (2000 - 1000) + 1000;
+  e.target.style.display = "none";
   rollRoulette();
 };
 
@@ -135,7 +137,13 @@ const rollRoulette = () => {
   // 룰렛 돌리는 코드
   if (tempRotate < slowPoint) {
     tempRotate += rotatePower;
-  } else {
+  } else if (rotatePower < 5) {
+    tempRotate += rotatePower;
+    rotatePower -= 0.01;
+  } else if (rotatePower < 10) {
+    tempRotate += rotatePower;
+    rotatePower -= 0.05;
+  } else if (tempRotate > slowPoint) {
     slowPoint = 0;
     tempRotate += rotatePower;
     rotatePower -= 0.1;
@@ -143,6 +151,7 @@ const rollRoulette = () => {
   if (rotatePower < 0) {
     tempRotate = 0;
     rotatePower = PushPower;
+    rollBtn.style.display = "block";
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -172,5 +181,4 @@ const rollRoulette = () => {
   requestAnimationFrame(rollRoulette);
 };
 
-const rollBtn = document.querySelector(".roll-btn");
 rollBtn.addEventListener("click", clickButton);

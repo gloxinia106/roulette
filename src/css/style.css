@@ -1,0 +1,87 @@
+body {
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-name {
+  margin-bottom: 50px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ul {
+  margin-top: 50px;
+  padding: 0px;
+}
+
+@media (min-width: 1000px) {
+  .main {
+    flex-direction: row;
+    align-items: center;
+  }
+  #ul {
+    margin-top: 0px;
+    margin-left: 40px;
+  }
+}
+
+.roulette-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roll-btn {
+  margin-top: 30px;
+  background-color: rgb(63, 81, 181);
+  border: none;
+  color: white;
+  font-weight: 600;
+  display: block;
+  font-size: 28px;
+  padding: 10px 110px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr 3.5fr 1fr 55px;
+  grid-gap: 15px;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.input-name,
+.input-weight {
+  padding: 10px 5px;
+  font-size: 15px;
+}
+
+.input-name:focus,
+.input-weight:focus {
+  outline: none;
+}
+
+.input-weight {
+  height: 15px;
+  width: 40px;
+}
+
+.delete-btn {
+  margin-right: -30px;
+  font-size: 15px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
