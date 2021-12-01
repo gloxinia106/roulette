@@ -55,7 +55,7 @@ body {
 
 .list {
   display: grid;
-  grid-template-columns: 1fr 3.5fr 1fr 55px;
+  grid-template-columns: 1fr 3.5fr 1fr 30px;
   grid-gap: 15px;
   align-items: center;
   list-style: none;
@@ -75,7 +75,7 @@ body {
 
 .input-weight {
   height: 15px;
-  width: 40px;
+  width: 30px;
 }
 
 .delete-btn {

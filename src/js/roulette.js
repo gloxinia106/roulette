@@ -3,6 +3,16 @@ import { degreeToRadian } from "./util";
 const colors = ["#FBC22B", "#F11486", "#A067AC", "#49A3CF", "#88E444"];
 
 export const drawRoulette = (ctx, angles, size, labels, rotate) => {
+  let font = "36px Sans-serif";
+
+  if (screen.width < 600) {
+    size.width = screen.width;
+    size.height = screen.width;
+    ctx.canvas.width = screen.width;
+    ctx.canvas.height = screen.width;
+    font = "7vw Sans-serif";
+  }
+
   let beginAngle = 0;
   let endAngle = degreeToRadian(rotate) || 0;
 
@@ -42,7 +52,7 @@ export const drawRoulette = (ctx, angles, size, labels, rotate) => {
     ctx.translate(centerX, centerY);
     ctx.rotate(textAngle + radian[i] / 2);
     ctx.moveTo(0, 0);
-    ctx.font = "36px Sans-serif";
+    ctx.font = font;
     ctx.strokeStyle = "black"; // 'black';
     ctx.lineWidth = 5;
     ctx.strokeText(labels[i], radius / 4, 8);
