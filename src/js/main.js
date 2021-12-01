@@ -126,6 +126,7 @@ NameInput.addEventListener("input", handleNameInput);
 let tempRotate = 0;
 let slowPoint = 0;
 let rotatePower = PushPower;
+let currentAngle = 270;
 
 const clickButton = (e) => {
   slowPoint = Math.random() * (2000 - 1000) + 1000;
@@ -137,19 +138,24 @@ const rollRoulette = () => {
   // 룰렛 돌리는 코드
   if (tempRotate < slowPoint) {
     tempRotate += rotatePower;
+    currentAngle -= rotatePower;
   } else if (rotatePower < 5) {
     tempRotate += rotatePower;
+    currentAngle -= rotatePower;
     rotatePower -= 0.01;
   } else if (rotatePower < 10) {
     tempRotate += rotatePower;
+    currentAngle -= rotatePower;
     rotatePower -= 0.05;
   } else if (tempRotate > slowPoint) {
     slowPoint = 0;
     tempRotate += rotatePower;
+    currentAngle -= rotatePower;
     rotatePower -= 0.1;
   }
   if (rotatePower < 0) {
     tempRotate = 0;
+    currentAngle = 270;
     rotatePower = PushPower;
     rollBtn.style.display = "block";
     return;
@@ -159,24 +165,20 @@ const rollRoulette = () => {
 
   // 돌아가는 룰렛에 현재 위치 알아내는 코드
 
-  let temp = tempRotate;
+  while (currentAngle < 0) currentAngle += 360;
+  while (currentAngle >= 360) currentAngle -= 360;
 
-  while (temp < -90) temp += 360;
-  while (temp >= 270) temp -= 360;
-
-  let beginAngle = -90;
-  let lastAngle = -90;
-  let desIndex = Degrees.length - 1;
+  let beginAngle = 0;
+  let lastAngle = 0;
 
   for (let i = 0; i < Degrees.length; i = i + 1) {
     beginAngle += Degrees[i - 1] || 0;
     lastAngle += Degrees[i];
 
-    if (temp > beginAngle && temp < lastAngle) {
-      CurrentName.innerText = Lable[desIndex];
-      CurrentName.style.color = colors[desIndex];
+    if (currentAngle > beginAngle && currentAngle < lastAngle) {
+      CurrentName.innerText = Lable[i];
+      CurrentName.style.color = colors[i % colors.length];
     }
-    desIndex -= 1;
   }
   requestAnimationFrame(rollRoulette);
 };
