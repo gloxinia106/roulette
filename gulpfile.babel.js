@@ -48,4 +48,5 @@ const watch = () => {
   gulp.watch("src/**/*.js", js);
 };
 
-export const build = gulp.series(clean, html, css, js, webserver, watch);
+export const dev = gulp.series(clean, html, css, js, webserver, watch);
+export const build = gulp.series(clean, html, css, js);
