@@ -2,6 +2,7 @@
   "name": "roulette",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "gulp dev",
     "build": "gulp build"
@@ -21,6 +22,7 @@
     "gulp-csso": "^4.0.1",
     "gulp-html": "^3.5.0",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^8.0.0",
     "gulp-webserver": "^0.9.1",
     "uglifyify": "^5.0.2"
   },

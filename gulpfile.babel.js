@@ -7,6 +7,7 @@ import miniCSS from "gulp-csso";
 import bro from "gulp-bro";
 import babelify from "babelify";
 import htmlmin from "gulp-htmlmin";
+import imagemin from "gulp-imagemin";
 
 const clean = () => del(["out/"]);
 
@@ -42,6 +43,9 @@ const js = () =>
     )
     .pipe(gulp.dest("out/js/"));
 
+const img = () =>
+  gulp.src("src/static/*").pipe(imagemin()).pipe(gulp.dest("out/static"));
+
 const watch = () => {
   gulp.watch("src/**/*.html", html);
   gulp.watch("src/**/*.css", css);
@@ -49,4 +53,4 @@ const watch = () => {
 };
 
 export const dev = gulp.series(clean, html, css, js, webserver, watch);
-export const build = gulp.series(clean, html, css, js);
+export const build = gulp.series(clean, html, css, js, img);
