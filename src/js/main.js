@@ -25,12 +25,18 @@ const deleteToList = (e) => {
   const li = e.target.parentElement;
   const liId = li.id.split("-")[1];
   li.remove();
-  listId = listId.filter((id) => id !== parseInt(liId));
+  listId = listId.filter((id, index) => {
+    if (id === parseInt(liId)) {
+      Lable.splice(index, 1);
+    }
+    return id !== parseInt(liId);
+  });
   updateData();
 };
 
 const addToList = () => {
-  const id = listId[listId.length - 1] + 1;
+  const id = Math.max(...listId) + 1;
+  listId.push(id);
 
   const li = document.createElement("li");
   li.id = `list-${id}`;
@@ -94,7 +100,8 @@ const updateData = () => {
 };
 
 const handleEnterKey = () => {
-  listId.push(listId[listId.length - 1] + 1);
+  const NameInputs = document.querySelectorAll(".input-name");
+  listId = [...NameInputs].map((input) => parseInt(input.id.split("-")[1]));
   handleNameInput();
   addToList();
   updateData();
