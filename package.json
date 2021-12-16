@@ -23,6 +23,7 @@
     "gulp-html": "^3.5.0",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^8.0.0",
+    "gulp-sitemap": "^8.0.0",
     "gulp-webserver": "^0.9.1",
     "uglifyify": "^5.0.2"
   },
