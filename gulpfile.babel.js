@@ -8,7 +8,6 @@ import bro from "gulp-bro";
 import babelify from "babelify";
 import htmlmin from "gulp-htmlmin";
 import imagemin from "gulp-imagemin";
-import gsitemap from "gulp-sitemap";
 
 const clean = () => del(["out/"]);
 
@@ -53,11 +52,7 @@ const watch = () => {
   gulp.watch("src/**/*.js", js);
 };
 
-const sitemap = () =>
-  gulp
-    .src("out/**/*.html", { read: false })
-    .pipe(gsitemap({ siteUrl: "https://dolimpan.netlify.app" }))
-    .pipe(gulp.dest("out/"));
+const sitemap = () => gulp.src("src/sitemap.xml").pipe(gulp.dest("out/"));
 
 export const dev = gulp.series(clean, html, css, js, webserver, watch);
 export const build = gulp.series(clean, html, css, js, img, sitemap);
